@@ -18,6 +18,11 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = ['id', 'user', 'item_name', 'prix', 'categorie', 'images', 'uploaded_images']
         read_only_fields = ['user']
+        extra_kwargs = {
+            'item_name': {'required': False},
+            'prix': {'required': False},
+            'categorie': {'required': False}
+        }
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop('uploaded_images', [])
@@ -27,3 +32,17 @@ class ItemSerializer(serializers.ModelSerializer):
             ItemImage.objects.create(item=item, image_url=image)
         
         return item
+
+    def update(self, instance, validated_data):
+        uploaded_images = validated_data.pop('uploaded_images', [])
+        
+        # Update item fields if provided
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        # Add new images if provided
+        for image in uploaded_images:
+            ItemImage.objects.create(item=instance, image_url=image)
+            
+        return instance

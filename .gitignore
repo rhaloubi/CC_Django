@@ -40,7 +40,7 @@ ENV/
 .DS_Store
 
 # Project specific
-/menu_prj/__pycache__/
-/api/__pycache__/
-/api/migrations/__pycache__/
+menu_prj/__pycache__/
+api/__pycache__/
+api/migrations/__pycache__/
 media/items/

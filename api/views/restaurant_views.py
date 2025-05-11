@@ -13,6 +13,11 @@ class RestaurantViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         if self.request.user.role != 'restaurant_owner':
             raise PermissionError("Only restaurant owners can create restaurants")
+            
+        # Check if user already has a restaurant
+        if Restaurant.objects.filter(user=self.request.user).exists():
+            raise PermissionError("You already have a restaurant. Only one restaurant is allowed per user.")
+            
         serializer.save(user=self.request.user)
     
     def get_queryset(self):

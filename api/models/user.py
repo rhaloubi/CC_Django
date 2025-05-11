@@ -22,11 +22,10 @@ class User(AbstractUser):
     ROLE_CHOICES = (
         ('admin', 'Admin'),
         ('restaurant_owner', 'Restaurant Owner'),
-        ('customer', 'Customer'),
     )
     
     email = models.EmailField(unique=True)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='customer')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='restaurant_owner')
     
     objects = UserManager()
     

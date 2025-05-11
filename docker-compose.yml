@@ -10,8 +10,7 @@ services:
       - sqlite_data:/app/db
     environment:
       - DEBUG=0
-    depends_on:
-      - nginx
+    command: sh -c "python manage.py collectstatic --noinput && gunicorn menu_prj.wsgi:application --bind 0.0.0.0:8000"
 
   nginx:
     image: nginx:alpine
@@ -21,6 +20,8 @@ services:
       - media_volume:/app/media
     ports:
       - "80:80"
+    depends_on:
+      - web
 
 volumes:
   static_volume:

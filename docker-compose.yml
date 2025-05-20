@@ -2,14 +2,16 @@ version: '3.8'
 
 services:
   web:
+    environment:
+      - STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - DEBUG=0
     build: .
     volumes:
       - .:/app
       - static_volume:/app/static
       - media_volume:/app/media
-      - sqlite_data:/app/db
-    environment:
-      - DEBUG=0
+      - sqlite_data:/app/db      
     command: sh -c "python manage.py collectstatic --noinput && gunicorn menu_prj.wsgi:application --bind 0.0.0.0:8000"
 
   nginx:

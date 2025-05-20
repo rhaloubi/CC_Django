@@ -20,6 +20,26 @@ class RestaurantViewSet(viewsets.ModelViewSet):
             
         serializer.save(user=self.request.user)
     
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # Check if user is owner or admin
+        if instance.user != request.user and not request.user.is_staff:
+            return Response(
+                {"error": "You don't have permission to update this restaurant"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # Check if user is owner or admin
+        if instance.user != request.user and not request.user.is_staff:
+            return Response(
+                {"error": "You don't have permission to delete this restaurant"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        return super().destroy(request, *args, **kwargs)
+    
     def get_queryset(self):
         if self.request.user.is_staff:
             return Restaurant.objects.all()

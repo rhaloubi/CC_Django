@@ -29,7 +29,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login/`, {
         email,
         password,
       }, {
@@ -43,17 +43,19 @@ export default function LoginPage() {
         
         // Check user status and navigate accordingly
         const token = response.data.token;
-        const userResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
+        const userResponse = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me/`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Token ${token}`
           }
         });
 
-        const userData = userResponse.data.data;
+        const userData = userResponse.data;
 
         if (userData.role === 'admin') {
           navigate('/dashboard');
-        } else if (userData.role === 'user') {
+        }
+        // this for anas not working :
+         else if (userData.role === 'user') {
           try {
             const accountResponse = await axios.get(
               `${import.meta.env.VITE_API_URL}/api/accounts/user/${userData.id}`,

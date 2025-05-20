@@ -10,11 +10,6 @@ import NotFoundPage from './pages/404';
 import Tasks from './pages/Tasks';
 import Account from './pages/Account';
 import Attendance from './pages/Attendance';
-import UProfile from './pages/user/Profile';
-import User from './pages/user/Users';
-import UTasks from './pages/user/Tasks';
-import UAccount from './pages/user/Account';
-import AddAccount from './pages/AddAccount';
 import UserRoute from './util/userRoute';
 
 const App = () => {
@@ -54,32 +49,6 @@ const App = () => {
             </PrivateRoute>
           } /> 
 
-        {/* User Routes */}
-        <Route path="/user/add-account" element={
-          <UserRoute>
-            <AddAccount />
-          </UserRoute>
-        } />
-         <Route path="/user/tasks" element={
-          <UserRoute>
-            <UTasks />
-          </UserRoute>
-        } />
-         <Route path="/user/users" element={
-          <UserRoute>
-            <User />
-          </UserRoute>
-        } />
-         <Route path="/user/profile" element={
-          <UserRoute>
-            <UProfile />
-          </UserRoute>
-        } />
-         <Route path="/user/account" element={
-          <UserRoute>
-            <UAccount />
-          </UserRoute>
-        } />
         {/* 404 Routes */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

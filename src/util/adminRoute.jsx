@@ -17,14 +17,14 @@ const PrivateRoute = ({ isAdminRoute, children }) => {
       }
 
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me/`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `token ${token}`,
           },
         });
         
         // Access the role from the correct path in the response
-        const userData = response.data.data;
+        const userData = response.data;
         setIsAdmin(userData && userData.role === "admin");
       } catch (error) {
         console.error('Error checking admin status:', error);

@@ -30,17 +30,17 @@ export default function SettingsPage() {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem('authToken')
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me/`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `token ${token}`
           }
         })
         
-        if (response.data.success) {
+        if (response.data !== null) {
           setUserData({
-            username: response.data.data.username,
-            email: response.data.data.email,
-            role: response.data.data.role
+            username: response.data.username,
+            email: response.data.email,
+            role: response.data.role
           })
         }
       } catch (error) {

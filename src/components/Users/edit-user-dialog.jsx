@@ -47,14 +47,14 @@ export function EditUserDialog({ open, onOpenChange, userId }) {
       if (userId && open) {
         try {
           const token = localStorage.getItem('authToken')
-          const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/users/${userId}`, {
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users/${userId}`, {
             headers: {
-              Authorization: `Bearer ${token}`
+              Authorization: `token ${token}`
             }
           })
 
-          if (response.data.success) {
-            const userData = response.data.data
+          if (response.data !== null) {
+            const userData = response.data
             form.reset({
               username: userData.username,
               email: userData.email,
@@ -90,12 +90,12 @@ export function EditUserDialog({ open, onOpenChange, userId }) {
     try {
       const token = localStorage.getItem('authToken')
       
-      await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/users/${userId}`, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/admin/users/${userId}/`, {
         username: values.username,
         email: values.email,
       }, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `token ${token}`
         }
       })
 

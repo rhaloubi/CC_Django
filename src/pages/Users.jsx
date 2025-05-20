@@ -32,7 +32,7 @@ export default function UserList() {
 
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, { headers })
         
-        if (response.data) {
+        if (response.data !== null) {
           const userData = response.data  // <-- Add .data here
           .filter(user => user.role !== 'admin')
           .map(user => ({

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import {  Users, UserPlus } from 'lucide-react'
+import { Users, UserPlus } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { AddUserDialog } from "@/components/Users/add-user-dialog"
 import { columns } from "@/components/Users/columns"
@@ -11,14 +11,13 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import Header from "@/layout/header"
 import { AppSidebar } from "@/layout/sidebar"
 import axios from "axios"
-import { Toaster } from "@/components/ui/toaster" // Add this import
-// Add this import along with your other imports
+import { Toaster } from "@/components/ui/toaster"
 import { EditUserDialog } from "@/components/Users/edit-user-dialog"
 
 export default function UserList() {
   const [addUserOpen, setAddUserOpen] = useState(false)
-  const [editUserOpen, setEditUserOpen] = useState(false)  // Add this
-  const [selectedUserId, setSelectedUserId] = useState(null)  // Add this
+  const [editUserOpen, setEditUserOpen] = useState(false)
+  const [selectedUserId, setSelectedUserId] = useState(null)
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -28,32 +27,21 @@ export default function UserList() {
       try {
         const token = localStorage.getItem('authToken')
         const headers = {
-          Authorization: `Bearer ${token}`
+          Authorization: `token ${token}`
         }
 
-        const [usersResponse, accountsResponse] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_URL}/api/auth/users`, { headers }),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/accounts`, { headers })
-        ])
-
-        if (usersResponse.data.success && accountsResponse.data.success) {
-          // Filter out admin users and combine the data
-          const combinedData = usersResponse.data.data
-            .filter(user => user.role !== 'admin')
-            .map(user => {
-              const account = accountsResponse.data.data.find(acc => acc.id_user === user.id)
-              return {
-                id: user.id.toString(),
-                username: user.username,
-                name: account ? `${account.firstName} ${account.lastName}` : 'N/A',
-                email: user.email,
-                phoneNumber: account ? account.phoneNumber : 'N/A',
-                status: account ? "Active" : "Invited",
-                role: user.role,
-                team: account ? account.team : 'ALL'
-              }
-            })
-          setUsers(combinedData)
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, { headers })
+        
+        if (response.data) {
+          const userData = response.data  // <-- Add .data here
+          .filter(user => user.role !== 'admin')
+          .map(user => ({
+            id: user.id.toString(),
+            email: user.email,
+            username: user.username,
+            role: user.role
+          }))
+          setUsers(userData)
         }
       } catch (error) {
         console.error('Error fetching users:', error)
@@ -82,10 +70,6 @@ export default function UserList() {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" className="gap-2">
-                    Invite User
-                    <Users className="h-4 w-4" />
-                  </Button>
                   <Button className="gap-2" onClick={() => setAddUserOpen(true)}>
                     Add User
                     <UserPlus className="h-4 w-4" />

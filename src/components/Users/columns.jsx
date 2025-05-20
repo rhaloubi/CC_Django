@@ -21,7 +21,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import axios from 'axios'
-// Add this import at the top
 import { EditUserDialog } from "./edit-user-dialog"
 import { useState } from "react"
 
@@ -36,43 +35,8 @@ export const columns = ({ setEditUserOpen, setSelectedUserId }) => [
     header: "Username",
   },
   {
-    accessorKey: "name",
-    header: "Name",
-  },
-  {
     accessorKey: "email",
     header: "Email",
-  },
-  {
-    accessorKey: "phoneNumber",
-    header: "Phone Number",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      const status = row.getValue("status")
-      const getStatusColor = (status) => {
-        switch (status) {
-          case "Active":
-            return "bg-emerald-500/15 border border-emerald-500 text-emerald-500"
-          case "Inactive":
-            return "bg-gray-600/15 border dark:border-gray-300 dark:text-gray-300 border-gray-600 text-gray-600"
-          case "Suspended":
-            return "bg-red-500/15 border border-red-500 text-red-500"
-          case "Invited":
-            return "bg-blue-500/15 border border-blue-500 text-blue-500"
-          default:
-            return "bg-gray-500/15 border border-gray-300 text-gray-300"
-        }
-      }
-
-      return (
-        <Badge variant="secondary" className={`${getStatusColor(status)} px-1.5 py-0.5 text-xs`}>
-          {status}
-        </Badge>
-      )
-    },
   },
   {
     accessorKey: "role",
@@ -80,71 +44,66 @@ export const columns = ({ setEditUserOpen, setSelectedUserId }) => [
     cell: ({ row }) => {
       const role = row.getValue("role")
       return (
-        <div className="flex items-center gap-2">
-          {role === "user" && <Users className="h-4 w-4" />}
+        <Badge variant={role === "admin" ? "destructive" : "outline"}>
           {role}
-        </div>
+        </Badge>
       )
     },
   },
-
-
   {
     id: "actions",
     cell: ({ row }) => {
-      const handleEdit = () => {
-        setSelectedUserId(row.original.id)
-        setEditUserOpen(true)
-      }
-
-      const handleDelete = async () => {
-        try {
-          const token = localStorage.getItem('authToken')
-          const userId = row.original.id
-          
-          await axios.delete(`${import.meta.env.VITE_API_URL}/api/auth/users/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-          window.location.reload()
-        } catch (error) {
-          console.error('Error deleting user:', error)
-        }
-      }
-
+      const user = row.original
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" className="h-8 w-8 p-0">
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem 
-              className="text-gray-600 dark:text-gray-400"
-              onClick={handleEdit}
+            <DropdownMenuItem
+              onClick={() => {
+                setSelectedUserId(user.id)
+                setEditUserOpen(true)
+              }}
             >
               <Pencil className="mr-2 h-4 w-4" />
               Edit
             </DropdownMenuItem>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem className="text-red-600" onSelect={(e) => e.preventDefault()}>
+                <DropdownMenuItem>
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete
                 </DropdownMenuItem>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete the user.
+                    This action cannot be undone. This will permanently delete the
+                    user's account and remove their data from our servers.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleDelete} className="bg-red-600 dark:text-white hover:bg-red-700">
+                  <AlertDialogAction
+                    onClick={async () => {
+                      try {
+                        const token = localStorage.getItem('authToken')
+                        await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/users/${user.id}`, {
+                          headers: {
+                            Authorization: `Bearer ${token}`
+                          }
+                        })
+                        // Refresh the page or update the user list
+                        window.location.reload()
+                      } catch (error) {
+                        console.error('Error deleting user:', error)
+                      }
+                    }}
+                  >
                     Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -154,6 +113,6 @@ export const columns = ({ setEditUserOpen, setSelectedUserId }) => [
         </DropdownMenu>
       )
     },
-  }
+  },
 ]
 

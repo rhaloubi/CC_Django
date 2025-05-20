@@ -33,14 +33,14 @@ export function UserNav() {
       }
 
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me/`, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `token ${token}`,
           },
         });
 
         if (response.data.success) {
-          setUserData(response.data.data);
+          setUserData(response.data);
         } else {
           setError('Failed to fetch user data');
         }

@@ -73,7 +73,7 @@ export const columns = ({ setEditUserOpen, setSelectedUserId }) => [
             </DropdownMenuItem>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete
                 </DropdownMenuItem>
@@ -92,12 +92,11 @@ export const columns = ({ setEditUserOpen, setSelectedUserId }) => [
                     onClick={async () => {
                       try {
                         const token = localStorage.getItem('authToken')
-                        await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/users/${user.id}`, {
+                        await axios.delete(`${import.meta.env.VITE_API_URL}/api/admin/users/${user.id}/`, {
                           headers: {
-                            Authorization: `Bearer ${token}`
+                            Authorization: `token ${token}`
                           }
                         })
-                        // Refresh the page or update the user list
                         window.location.reload()
                       } catch (error) {
                         console.error('Error deleting user:', error)

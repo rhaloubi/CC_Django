@@ -62,13 +62,13 @@ export function AddUserDialog({ open, onOpenChange }) {
     try {
       const token = localStorage.getItem('authToken')
       
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register/`, {
         username: values.username,
         email: values.email,
         password: values.password,
       }, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `token ${token}`
         }
       })
 

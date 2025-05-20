@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# Add 'corsheaders' to INSTALLED_APPS
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,19 +43,29 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',  # Add this line
+    'rest_framework.authtoken',
+    'corsheaders',  # Add this line
     'api',
 ]
 
+# Add corsheaders middleware before CommonMiddleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Add this line
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Add CORS settings at the bottom of the file
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3001",  # React development server
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'menu_prj.urls'
 

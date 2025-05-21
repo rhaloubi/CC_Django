@@ -1,9 +1,9 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
-import Loading from '@/layout/loading'; // Ensure you have a Loading component
+import { Navigate, Outlet } from 'react-router-dom';
+import Loading from '@/layout/loading';
 
-const PrivateRoute = ({ isAdminRoute, children }) => {
+const PrivateRoute = ({ isAdminRoute }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -23,7 +23,6 @@ const PrivateRoute = ({ isAdminRoute, children }) => {
           },
         });
         
-        // Access the role from the correct path in the response
         const userData = response.data;
         setIsAdmin(userData && userData.role === "admin");
       } catch (error) {
@@ -42,10 +41,10 @@ const PrivateRoute = ({ isAdminRoute, children }) => {
   }
 
   if (isAdminRoute && !isAdmin) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <Outlet />;
 };
 
 export default PrivateRoute;

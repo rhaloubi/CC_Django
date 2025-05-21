@@ -58,14 +58,6 @@ export function NavMain({
             </SidebarMenuItem>
           </Collapsible>
         ))}
-          <SidebarMenuItem>
-          <SidebarMenuButton asChild >
-              <Link to="/404" className="hover:bg-zinc-300 dark:hover:bg-zinc-800">
-              <CircleHelp className="size-4" />
-              <span>Help Center</span>
-              </Link>
-          </SidebarMenuButton>
-          </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>)
   );

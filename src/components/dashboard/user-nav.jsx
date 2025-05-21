@@ -39,7 +39,7 @@ export function UserNav() {
           },
         });
 
-        if (response.data.success) {
+        if (response.data !== null) {
           setUserData(response.data);
         } else {
           setError('Failed to fetch user data');
@@ -61,9 +61,6 @@ export function UserNav() {
           case 'p':
             navigate('/profile')
             break
-          case 'b':
-            navigate('/account')
-            break
           case 'd':
             navigate('/dashboard')
             break
@@ -82,7 +79,7 @@ export function UserNav() {
     try {
      
       localStorage.removeItem('authToken')
-      navigate('/login')
+      navigate('/')
     } catch (error) {
       console.error('Logout failed:', error)
     }
@@ -123,11 +120,6 @@ export function UserNav() {
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => navigate('/account')}>
-            <BadgeCheck className="mr-2 h-4 w-4" />
-            <span>Account</span>
-            <DropdownMenuShortcut>⇧⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => navigate('/dashboard')}>
             <LayoutDashboard  className="mr-2 h-4 w-4" />

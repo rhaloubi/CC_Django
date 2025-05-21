@@ -31,28 +31,21 @@ import {
 } from "@/components/ui/sidebar"
 import { useNavigate } from "react-router-dom"
 
-export function NavUser({
-  user
-}) {
+export function NavUser({ user }) {
   const { isMobile } = useSidebar()
   const navigate = useNavigate()
 
   const handleLogout = async () => {
     try {
       localStorage.removeItem('authToken')
-      navigate('/login')
+      navigate('/')
     } catch (error) {
       console.error('Logout failed:', error)
     }
   }
 
-  // Update the data check
   if (!user || !user.data) {
-    return (
-      <div className="flex items-center justify-center">
-        <h2 className="text-sm font-bold">User data is not available.</h2>
-      </div>
-    );
+    return null;
   }
 
   const userData = user.data;
@@ -99,17 +92,17 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-              <UserPen />
+                <UserPen className="mr-2 h-4 w-4" />
                 Profile
               </DropdownMenuItem>
-                <DropdownMenuItem>
-                <BadgeCheck />
+              <DropdownMenuItem>
+                <BadgeCheck className="mr-2 h-4 w-4" />
                 Account
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
-              <LogOut />
+              <LogOut className="mr-2 h-4 w-4" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

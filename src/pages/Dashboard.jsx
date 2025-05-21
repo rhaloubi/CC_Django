@@ -1,4 +1,4 @@
-import { Users, Euro, CreditCard, Activity } from 'lucide-react'
+import { Users } from 'lucide-react'
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { MainNav } from "@/components/dashboard/main-nav"
 import { AppSidebar } from "@/layout/sidebar"
@@ -7,7 +7,7 @@ import { RecentSales } from "@/components/dashboard/recent-sales"
 import { SearchCommand } from "@/components/dashboard/SearchDialog"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/ThemeToggle"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
 import { UserNav } from "@/components/dashboard/user-nav"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useState, useEffect } from 'react'
@@ -26,14 +26,14 @@ function Dashboard() {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem('authToken')
-        const headers = { Authorization: `Bearer ${token}` }
+        const headers = { Authorization: `token ${token}` }
 
         const [usersResponse, tasksResponse] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_API_URL}/api/auth/users`, { headers }),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, { headers }),
           axios.get(`${import.meta.env.VITE_API_URL}/api/tasks`, { headers })
         ])
 
-        const users = usersResponse.data.data
+        const users = usersResponse.data
         const tasks = tasksResponse.data.data
         
         setStats({

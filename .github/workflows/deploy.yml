@@ -3,7 +3,7 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - main  # Replace with the branch you want to trigger the deployment on
+      - main # Replace with the branch you want to trigger the deployment on
 
 jobs:
   deploy:
@@ -20,8 +20,7 @@ jobs:
 
       # Step 3: Build the project
       - name: Build project
-        env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }} # Inject the API URL
+
         run: npm run build
 
       # Step 4: Deploy to Vercel

@@ -87,8 +87,5 @@ const items = [
   {
     name: "Profile",
   },
-  {
-    name: "Account",
-  },
 ]
 

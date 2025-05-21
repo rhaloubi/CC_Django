@@ -6,8 +6,7 @@ import PrivateRoute from './util/adminRoute';
 import './index.css';
 import UserList from './pages/Users';
 import NotFoundPage from './pages/404';
-import Tasks from './pages/Tasks';
-import Attendance from './pages/Attendance';
+import Restaurants from './pages/Restaurants';
 
 const App = () => {
   return (
@@ -20,8 +19,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/users" element={<UserList />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/attendance" element={<Attendance />} />
+          <Route path="/tasks" element={<Restaurants />} />
         </Route>
 
         {/* 404 Routes */}

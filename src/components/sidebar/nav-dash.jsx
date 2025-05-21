@@ -1,6 +1,6 @@
 "use client"
 import { Link } from "react-router-dom"
-import { BarChart3, CheckSquare, LayoutGrid, MessageSquareMore, Users } from 'lucide-react'
+import { BarChart3, CheckSquare,  Users } from 'lucide-react'
 
 import {
 
@@ -40,12 +40,6 @@ return (
                         <Link to="/users" className="hover:bg-zinc-300 dark:hover:bg-zinc-800">
                         <Users className="size-4" />
                         <span>Users</span>
-                        </Link>
-                    </SidebarMenuButton>
-                    <SidebarMenuButton asChild>
-                        <Link to="/attendance" className="hover:bg-zinc-300 dark:hover:bg-zinc-800">
-                        <Users className="size-4" />
-                        <span>Attendance</span>
                         </Link>
                     </SidebarMenuButton>
                     </SidebarMenuItem>

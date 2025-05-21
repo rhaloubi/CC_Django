@@ -1,50 +1,48 @@
 "use client"
 
-import { columns } from "@/components/Tasks/columns"
-import { DataTable } from "@/components/Tasks/data-table"
+import { columns } from "@/components/Restaurants/columns"
+import { DataTable } from "@/components/Restaurants/data-table"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import Header from "@/layout/header"
 import { AppSidebar } from "@/layout/sidebar"
-import { useEffect, useState } from 'react' // Add these imports
+import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Toaster } from "@/components/ui/toaster" // Add this import
+import { Toaster } from "@/components/ui/toaster"
 
-export default function Tasks() {
-  const [tasks, setTasks] = useState([])
+export default function Restaurants() {
+  const [restaurants, setRestaurants] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchRestaurants = async () => {
       try {
         const token = localStorage.getItem('authToken')
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/tasks`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/restaurants/`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `token ${token}`
           }
         })
 
-        if (response.data.success) {
-          // Transform the data to include only required fields
-          const formattedTasks = response.data.data.map(task => ({
-            id: task.id,
-            title: task.title,
-            type: task.type,
-            status: task.status,
-            priority: task.priority
+        if (response.data !== null) {
+          const formattedRestaurants = response.data.map(restaurant => ({
+            id: restaurant.id,
+            company_name: restaurant.company_name,
+            phone_number: restaurant.phone_number,
+            user: restaurant.user
           }))
-          setTasks(formattedTasks)
+          setRestaurants(formattedRestaurants)
         }
       } catch (error) {
-        console.error('Error fetching tasks:', error)
-        setError('Failed to fetch tasks')
+        console.error('Error fetching restaurants:', error)
+        setError('Failed to fetch restaurants')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchTasks()
+    fetchRestaurants()
   }, [])
 
   return (
@@ -57,9 +55,9 @@ export default function Tasks() {
             <div className="bg-background p-4">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h1 className="text-2xl font-semibold">Tasks</h1>
+                  <h1 className="text-2xl font-semibold">Restaurants</h1>
                   <p className="text-muted-foreground">
-                    Here's a list of your tasks for this month!
+                    Here's a list of all restaurants!
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -67,11 +65,11 @@ export default function Tasks() {
               </div>
 
               {loading ? (
-                <div>Loading tasks...</div>
+                <div>Loading restaurants...</div>
               ) : error ? (
                 <div>{error}</div>
               ) : (
-                <DataTable columns={columns} data={tasks} />
+                <DataTable columns={columns} data={restaurants} />
               )}
             </div>
           </div>
@@ -81,4 +79,3 @@ export default function Tasks() {
     </ThemeProvider>
   )
 }
-

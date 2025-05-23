@@ -64,7 +64,8 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001", 
     "http://localhost:5173",
-    "http://localhost:5174" # React development server
+    "http://localhost:5174",
+    "https://cc-django.vercel.app",  # React development server
 ]
 
 CORS_ALLOW_CREDENTIALS = True

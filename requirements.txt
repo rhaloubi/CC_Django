@@ -1,5 +1,7 @@
-Django
+Django>=4.2.0
 djangorestframework
 Pillow
 gunicorn
 stripe==5.4.0
+python-dotenv
+django-cors-headers

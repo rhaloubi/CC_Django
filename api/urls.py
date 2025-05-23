@@ -20,5 +20,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', LoginView.as_view(), name='login'),
-    path('restaurant/<str:company_name>/menu/', RestaurantMenuView.as_view(), name='restaurant-menu'),
+    path('restaurant/<slug:slug>/menu/', RestaurantMenuView.as_view(), name='restaurant-menu'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

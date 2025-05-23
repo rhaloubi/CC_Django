@@ -8,5 +8,5 @@ class RestaurantMenuView(generics.RetrieveAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = MenuSerializer
     permission_classes = [AllowAny]
-    lookup_field = 'company_name'
-    lookup_url_kwarg = 'company_name'
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'slug'

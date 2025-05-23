@@ -4,5 +4,5 @@ from api.models import Restaurant
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ['id', 'user', 'company_name', 'phone_number']
+        fields = ['id', 'user', 'company_name', 'phone_number', 'slug']
         read_only_fields = ['user']

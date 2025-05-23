@@ -14,7 +14,7 @@ class MenuSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Restaurant
-        fields = ['id', 'company_name', 'items']
+        fields = ['id', 'company_name', 'slug', 'items']
     
     def get_items(self, obj):
         items = Item.objects.filter(user=obj.user)

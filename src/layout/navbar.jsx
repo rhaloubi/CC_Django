@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom"
-import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import DarkLogo from "@/assets/svg/MORATEL11.svg"
 import LightLogo from "@/assets/svg/MORATEL1.svg";
 import { useTheme } from "@/components/theme-provider"; // Assuming you have a theme provider

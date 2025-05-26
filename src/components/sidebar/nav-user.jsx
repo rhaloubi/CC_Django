@@ -1,12 +1,9 @@
-"use client"
 
 import {
   BadgeCheck,
-  Bell,
   ChevronsUpDown,
   UserPen,
   LogOut,
-  Sparkles,
 } from "lucide-react"
 
 import {
@@ -29,7 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { useNavigate } from "react-router-dom"
+import { useNavigate , Link } from "react-router-dom"
 
 export function NavUser({ user }) {
   const { isMobile } = useSidebar()
@@ -93,11 +90,15 @@ export function NavUser({ user }) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <UserPen className="mr-2 h-4 w-4" />
+                <Link to="/profile">
                 Profile
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <BadgeCheck className="mr-2 h-4 w-4" />
-                Account
+                <Link to="/dashboard" >
+                Dashboard
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

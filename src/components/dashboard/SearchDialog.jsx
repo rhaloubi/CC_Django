@@ -79,7 +79,7 @@ const items = [
     name: "Dashboard",
   },
   {
-    name: "Tasks",
+    name: "Restaurants",
   },
   {
     name: "Users",

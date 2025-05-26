@@ -78,14 +78,6 @@ export default function SettingsPage() {
                       <User /> 
                       Profile
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      className="justify-start"
-                      onClick={() => navigate('/account')}
-                    >
-                      <KeyRound />
-                      Account
-                    </Button>
                   </div>
 
                   <div className="flex-1">

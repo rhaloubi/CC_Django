@@ -1,3 +1,5 @@
+"use client"
+
 import { Users } from 'lucide-react'
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { MainNav } from "@/components/dashboard/main-nav"
@@ -12,14 +14,14 @@ import { UserNav } from "@/components/dashboard/user-nav"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { ListTodo, CheckCircle, Clock } from 'lucide-react'
+import { Store, CheckCircle, Clock } from 'lucide-react'
 
 function Dashboard() {
   const [stats, setStats] = useState({
     totalUsers: 0,
-    totalTasks: 0,
-    completedTasks: 0,
-    pendingTasks: 0
+    totalRestaurants: 0,
+    activeRestaurants: 0,
+    pendingRestaurants: 0
   })
 
   useEffect(() => {
@@ -28,19 +30,19 @@ function Dashboard() {
         const token = localStorage.getItem('authToken')
         const headers = { Authorization: `token ${token}` }
 
-        const [usersResponse, tasksResponse] = await Promise.all([
+        const [usersResponse, restaurantsResponse] = await Promise.all([
           axios.get(`${import.meta.env.VITE_API_URL}/api/admin/users`, { headers }),
-          axios.get(`${import.meta.env.VITE_API_URL}/api/tasks`, { headers })
+          axios.get(`${import.meta.env.VITE_API_URL}/api/restaurants/`, { headers })
         ])
 
         const users = usersResponse.data
-        const tasks = tasksResponse.data.data
+        const restaurants = restaurantsResponse.data
         
         setStats({
-          totalUsers: users.length,
-          totalTasks: tasks.length,
-          completedTasks: tasks.filter(task => task.status === "Done").length,
-          pendingTasks: tasks.filter(task => task.status === "TODO" || task.status === "IN_PROGRESS").length
+          totalUsers: users.filter(user => user.role !== 'admin').length,
+          totalRestaurants: restaurants.length,
+          activeRestaurants: restaurants.length, // You can modify this based on your restaurant status logic
+          pendingRestaurants: 0 // You can modify this based on your restaurant status logic
         })
       } catch (error) {
         console.error('Error fetching dashboard stats:', error)
@@ -84,49 +86,49 @@ function Dashboard() {
                         <CardContent>
                           <div className="text-3xl font-bold">{stats.totalUsers}</div>
                           <p className="text-sm text-muted-foreground">
-                            Active team members
+                            Active Users
                           </p>
                         </CardContent>
                       </Card>
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-md font-medium">
-                            Total Tasks
+                            Total Restaurants
                           </CardTitle>
-                          <ListTodo className="text-blue-300 dark:text-blue-900" />
+                          <Store className="text-blue-300 dark:text-blue-900" />
                         </CardHeader>
                         <CardContent>
-                          <div className="text-3xl font-bold">{stats.totalTasks}</div>
+                          <div className="text-3xl font-bold">{stats.totalRestaurants}</div>
                           <p className="text-sm text-muted-foreground">
-                            All assigned tasks
+                            All registered restaurants
                           </p>
                         </CardContent>
                       </Card>
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-md font-medium">
-                            Completed Tasks
+                            Active Restaurants
                           </CardTitle>
                           <CheckCircle className="text-blue-300 dark:text-blue-900" />
                         </CardHeader>
                         <CardContent>
-                          <div className="text-3xl font-bold">{stats.completedTasks}</div>
+                          <div className="text-3xl font-bold">{stats.activeRestaurants}</div>
                           <p className="text-sm text-green-500/90">
-                            Successfully completed
+                            Currently active
                           </p>
                         </CardContent>
                       </Card>
                       <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                           <CardTitle className="text-md font-medium">
-                            Pending Tasks
+                            Pending Restaurants
                           </CardTitle>
                           <Clock className="text-blue-300 dark:text-blue-900" />
                         </CardHeader>
                         <CardContent>
-                          <div className="text-3xl font-bold">{stats.pendingTasks}</div>
+                          <div className="text-3xl font-bold">{stats.pendingRestaurants}</div>
                           <p className="text-sm text-yellow-500/90">
-                            In progress or todo
+                            Awaiting activation
                           </p>
                         </CardContent>
                       </Card>
@@ -134,7 +136,7 @@ function Dashboard() {
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                       <Card className="col-span-4">
                         <CardHeader>
-                          <CardTitle>Task Statistics</CardTitle>
+                          <CardTitle>Restaurant Statistics</CardTitle>
                         </CardHeader>
                         <CardContent className="pl-2">
                           <Overview />
@@ -142,9 +144,9 @@ function Dashboard() {
                       </Card>
                       <Card className="col-span-3">
                         <CardHeader>
-                          <CardTitle>Recent Tasks</CardTitle>
+                          <CardTitle>Recent Restaurants</CardTitle>
                           <div className="text-md text-muted-foreground">
-                            Latest {stats.totalTasks} tasks created
+                            Latest {stats.totalRestaurants} restaurants added
                           </div>
                         </CardHeader>
                         <CardContent>

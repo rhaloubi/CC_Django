@@ -1,7 +1,7 @@
 import  { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Github, Mail, Eye, EyeOff,Command } from 'lucide-react';
+import { Eye, EyeOff,Command } from 'lucide-react';
 
 import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";

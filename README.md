@@ -173,7 +173,7 @@ Authorization: Token your_auth_token
 
 ---
 
-## 💡 Notes for Frontend Developers
+## 💡 Notes for Frontend Developer
 
 - Use `Authorization: Token <your_token>` in headers after login
 - Use `multipart/form-data` for image uploads
